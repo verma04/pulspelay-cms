@@ -1,0 +1,43 @@
+ export type Inputs = {
+     id:String;
+    memberName: String;
+    memberAvatar: String;
+    memberCover: String;
+    memberPersonalEmail: String;
+    memberPhone: String;
+    memberDOB: String;
+    email: String;
+    password: String;
+    memberDescription: String;
+    education: String;
+    social: String;
+    memberDesignation: String;
+    hobbies: String;
+    interest: String;
+    certificate: String;
+    memberDateOfJoinnng: String;
+    memberCategory: String;
+    memberWorkType: String;
+    memberLineManger: String;
+    gender: String;
+    addressline1: String;
+    addressline2: String;
+    city: String;
+    pincode: String;
+    state: String;
+    instagram: String;
+    linkedin: String;
+    facebook: string;
+    youtube: String;
+    twitter: string;
+    medium: String;
+    dribble: String;
+    portfolio: String;
+    motherName: String;
+    fatherName: String;
+    emergencyPhone: String;
+    maritalstatus: String;
+    pulseplayID:String;
+    bloodGroup:String,
+    whatsApp:String,
+  };

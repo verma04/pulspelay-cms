@@ -1,0 +1,89 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": false,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "incremental": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "baseUrl": ".",
+   
+    "paths": {
+
+          "react": [ "./node_modules/@types/react" ],
+      "@apolloo/*": [
+        "./apollo/*"
+      ],
+      "@Image": [
+        "./ImageLayout/ImageLayout.tsx"
+      ],
+      "@components/*": [
+        "./components/*"
+      ],
+      "@/hoc*": [
+        "./hoc/*"
+      ],
+      "@interfaces/*": [
+        "interfaces/*"
+      ],
+      "@layouts/*": [
+        "layouts/*"
+      ],
+      "@lib/*": [
+        "lib/*"
+      ],
+      "@models/*": [
+        "models/*"
+      ],
+      "@options/*": [
+        "options/*"
+      ],
+      "@public/*": [
+        "public/*"
+      ],
+      "@reducers/*": [
+        "redux/reducers/*"
+      ],
+      "@redux/*": [
+        "redux/*"
+      ],
+      "@static/*": [
+        "static/*"
+      ],
+      "@store/*": [
+        "./store/*"
+      ],
+      "@style": [
+        "style/*"
+      ],
+      "@utils": [
+        "utils/*"
+      ],
+      "@dummy/*": [
+        "__dummy__/*"
+      ]
+      
+    }
+    
+  },
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx"
+, "components/ambassadors/view/recommendation.js", "components/ambassadors/edit-ambassadors/Edit.js", "components/team/EditConciegeItems/Edit.js", "components/journal/edit-journal/Edit.js", "components/calender/editCalenderItems /Edit.js", "components/calender/addCalenderItems/Add.js", "pages/drag.js", "pages/chat/index.js", "components/team/addConciegeItems/pdf.js", "components/List/Items.tsx", "components/blog/columns.js", "pages/aboutus/capabilities/addtsx", "components/blog/blog.tsx", "components/table/Table.jsx", "components/blog/List.tsx", "components/comman/DragImages.tsx", "components/services/services.tsx", "components/tagImage/addImages/image.jsx", "components/team/dragImages.jsx", "components/blog/Modalup/Status.jsx", "components/services/list.tsx", "components/testimonials/testimonials.tsx", "components/team/Items.tsx", "components/clients/Clients.ksx", "pages/_document.js", "pages/face-login.js"  ],
+  "exclude": [
+    "node_modules"
+  ]
+}

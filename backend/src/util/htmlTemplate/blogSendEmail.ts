@@ -1,0 +1,207 @@
+import moment from "moment";
+import sendGridEmail from "../sendGridEmail";
+import { TeamMember } from "../../models/teamMember";
+
+const blogSendEmail = async ({ blog }: any) => {
+  const find = await TeamMember.find({ status: true });
+  const map = find.map((t: any) => t.email);
+  const map1 = find.map((t: any) => t.memberPersonalEmail);
+
+  console.log([...map, ...map1]);
+  const slug = `pulseplaydigital.com/media/blog/${blog.slug}`;
+  const img = `https://pulseplaydigital.sgp1.digitaloceanspaces.com${blog.blogAvatar}`;
+
+  const title = blog.blogTitle;
+  const time = moment(blog?.createdAt).calendar();
+  const author =
+    blog.author.length === 1
+      ? `${blog.author[0].member.memberName}`
+      : `${blog.author
+          .map((set: any) => set.member.memberName)
+          .join(", ")
+          .replace(/,(?!.*,)/gim, " and")}`;
+
+  console.log(author);
+
+  const emailSent = `
+
+ <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<html lang="en">
+
+  <head data-id="__react-email-head"></head>
+  <div id="__react-email-preview" style="display:none;overflow:hidden;line-height:1px;opacity:0;max-height:0;max-width:0">PulsePlay Digital Blog<div> ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿</div>
+  </div>
+
+  <body data-id="__react-email-body" style="background-color:#f6f8fc;font-family: Verdana, sans-serif;"  font-family:-apple-system,BlinkMacSystemFont,&quot;Segoe UI&quot;,Roboto,Oxygen-Sans,Ubuntu,Cantarell,&quot;Helvetica Neue&quot;,sans-serif">
+    <table align="center" width="100%" data-id="__react-email-container" role="presentation" cellSpacing="0" cellPadding="0" border="0" style="max-width:45rem;margin:30px auto; padding:40px; width:45rem;background-color:#fff;border-radius:5px;overflow:hidden">
+      <tbody>
+        <tr style="width:100%">
+          <td>
+            <table align="center" width="100%" data-id="react-email-section" border="0" cellPadding="0" cellSpacing="0" role="presentation">
+              <tbody>
+                <tr>
+                  <td>
+                  <td data-id="__react-email-column"><img data-id="react-email-img" alt="PulsePlay Logo" src="https://pulseplaydigital.sgp1.cdn.digitaloceanspaces.com/PULSEPLAY_DIGITAL_LOGO.png" width="150" height="50" style="display:block;outline:none;border:none;text-decoration:none;padding:0 40px;padding-top:10px" /></td>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <table align="center" width="100%" data-id="react-email-section" style="padding:0 40px" border="0" cellPadding="0" cellSpacing="0" role="presentation">
+      <tbody>
+        <tr>
+          <td>
+            <hr data-id="react-email-hr" style="width:100%;border:none;border-top:1px solid #eaeaea;border-color:#e8eaed;margin:20px 0" />
+            <p data-id="react-email-text" style="font-size:14px;line-height:26px;margin:16px 0;font-weight:700;color:#004dcf">BLOG UPDATE</p>
+            <p data-id="react-email-text" style="font-size:14px;line-height:22px;margin:16px 0;color:#3c4043">Hello PulsePlay Digital Team,</p>
+            <p data-id="react-email-text" style="font-size:14px;line-height:22px;margin:16px 0;color:#3c4043">I hope this email finds you well. We&#x27;re excited to inform you that ${author} has just added a new blog post to our website, and we invite you to check it out!</p>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <table align="center" width="100%" data-id="react-email-section" style="padding-left:40px;padding-right:40px;padding-top:40px;" border="0" cellPadding="0" cellSpacing="0" role="presentation">
+      <tbody>
+        <tr>
+          <td>
+            <table align="center" width="100%" data-id="react-email-row" role="presentation" cellSpacing="0" cellPadding="0" border="0">
+              <tbody style="width:100%">
+                <tr style="width:100%">
+                  <td data-id="__react-email-column"><img data-id="react-email-img" src=${img} src=${img} width="220px" height="200px" style="display:block;outline:none;border:none;text-decoration:none;float:left;object-fit:cover" /></td>
+                  <td data-id="__react-email-column" style="vertical-align:top;padding-left:20px;  width: 250px;">
+                    <p data-id="react-email-text" style="font-size:14px;line-height:22px;margin:16px 0;color:#3c4043;font-weight:500">${title}</p>
+                    <p data-id="react-email-text" style="font-size:14px;line-height:24px;margin:16px 0"> <span style="text-transform: uppercase;font-size:12px" >  <strong> ${author} </strong> <span> <br />${time}</p>
+                    <a  style="border:1px solid rgb(235, 0, 140); color:rgb(235, 0, 140); padding: 10px; margin-top: 20px" class="bg-[#000000] rounded text-white text-[12px] font-semibold no-underline text-center" href=${slug} data-id="react-email-button" target="_blank" style="line-height:100%;text-decoration:none;display:inline-block;max-width:100%;padding:12px 20px"><span><!--[if mso]><i style="letter-spacing: 20px;mso-font-width:-100%;mso-text-raise:18" hidden>&nbsp;</i><![endif]--></span><span style="max-width:100%;display:inline-block;line-height:120%;mso-padding-alt:0px;mso-text-raise:9px">View Blog</span><span><!--[if mso]><i style="letter-spacing: 20px;mso-font-width:-100%" hidden>&nbsp;</i><![endif]--></span></a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <hr data-id="react-email-hr" style="width:100%;border:none;border-top:1px solid #eaeaea;border-color:#e8eaed;margin:20px 0" />
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <table align="center" width="100%" data-id="react-email-section" style="padding-left:40px" border="0" cellPadding="0" cellSpacing="0" role="presentation">
+      <tbody>
+        <tr>
+          <td>
+            <p data-id="react-email-text" style="font-size:14px;line-height:22px;margin:16px 0;color:#3c4043">Additionally, if any team member would like to contribute their own blog post, we encourage you to do so. You can easily submit your blog through our admin panel. Simply log in at<a href="https://admin.pulseplaydigital.com" data-id="react-email-link" target="_blank" style="color:#004dcf;text-decoration:none;font-size:14px;line-height:22px"> admin.pulseplaydigital.com</a> and follow the easy steps to create and submit your content.</p>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <table align="center" width="100%" data-id="react-email-section" style="padding:0 40px" border="0" cellPadding="0" cellSpacing="0" role="presentation">
+    
+        <tbody>
+        <tr>
+          <td>
+            <p data-id="react-email-text" style="font-size:14px;line-height:22px;margin:16px 0;color:#3c4043">
+                <strong> Benefits of writing a blog</strong>
+</p>
+<p  data-id="react-email-text" style="font-size:14px;line-height:22px;margin:16px 0;color:#3c4043" >
+<ol style="width: 100%; background-color:#f6f8fc; padding-bottom:5px" >
+<li style="font-size:14px;color:#3c4043; padding-top: 10px;padding-right:10px; padding-left:-10px" > Get credited for the blog. </li>
+<li style="font-size:14px;color:#3c4043; padding-top: 10px;padding-right:10px;">All blogs written or co-authored by you will show up on your individual profile page in Teams section.</li>
+<li style="font-size:14px;color:#3c4043; padding-top: 10px;padding-right:10px;">Establish your personal brand.</li>
+<li style="font-size:14px;color:#3c4043; padding-top: 10px;padding-right:10px;">Your personal social media handles are publicly visible on your individual profile page of our website- where people can reach out to you connect after reading your blog.</li>
+<li style="font-size:14px;color:#3c4043; padding-top: 10px;padding-right:10px;">Share your experience and insights with the wider community.</li>
+<li style="font-size:14px;color:#3c4043; padding-top: 10px;padding-right:10px;">Support our company with generating organic traffic on our website and potential business by writing blog. Good for business. Good for overall team growth.</li>
+</p>
+</ol>
+            <hr data-id="react-email-hr" style="width:100%;border:none;border-top:1px solid #eaeaea;border-color:#e8eaed;margin:20px 0" />
+          </td>
+        </tr>
+      </tbody>
+
+          <tbody>
+        <tr>
+          <td>
+            <p data-id="react-email-text" style="font-size:14px;line-height:22px;margin:16px 0;color:#3c4043">
+                <strong>Tips for writing a blog</strong>
+</p>
+<p  data-id="react-email-text" style="font-size:14px;line-height:22px;margin:16px 0;color:#3c4043" >
+<ol style="width: 100%; background-color:#f6f8fc; padding-bottom:5px" >
+<li style="font-size:14px;color:#3c4043; padding-top: 10px;padding-right:10px; padding-left:-10px" >Research trending topics.</li>
+<li style="font-size:14px;color:#3c4043; padding-top: 10px;padding-right:10px;">Always keep the audience in mind who will want to read your blog. Why is it beneficial for them and explain in bullets?</li>
+<li style="font-size:14px;color:#3c4043; padding-top: 10px;padding-right:10px;">Speak with our internal SEO team to pick up keywords to include in the blog.</li>
+<li style="font-size:14px;color:#3c4043; padding-top: 10px;padding-right:10px;">Speak internally to teams if anyone is interested in co-authoring.</li>
+<li style="font-size:14px;color:#3c4043; padding-top: 10px;padding-right:10px;">Incase, you use Chat GPT or any AI tool to write a blog - please make sure to humanise your blog.</li>
+<li style="font-size:14px;color:#3c4043; padding-top: 10px;padding-right:10px;">Use infographics to explain or take internal creative team’s help to generate one.
+</li>
+
+<li style="font-size:14px;color:#3c4043; padding-top: 10px;padding-right:10px;">Summarise in bullet points.
+</li>
+<li style="font-size:14px;color:#3c4043; padding-top: 10px;padding-right:10px;">Include FAQ - Questions and answers
+</li>
+<li style="font-size:14px;color:#3c4043; padding-top: 10px;padding-right:10px;">Provide a conclusion
+</li>
+</p>
+</ol>
+            <hr data-id="react-email-hr" style="width:100%;border:none;border-top:1px solid #eaeaea;border-color:#e8eaed;margin:20px 0" />
+          </td>
+        </tr>
+      </tbody>
+    
+        <tbody>
+        <tr>
+          <td>
+            <p data-id="react-email-text" style="font-size:14px;line-height:22px;margin:16px 0;color:#3c4043">Thank you for your continued contributions to our digital community. We look forward to reading your feedback on  blog and any future posts from our talented team.</p>
+            <hr data-id="react-email-hr" style="width:100%;border:none;border-top:1px solid #eaeaea;border-color:#e8eaed;margin:20px 0" />
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <table align="center" width="100%" data-id="react-email-section" style="padding:0 40px" border="0" cellPadding="0" cellSpacing="0" role="presentation">
+      <tbody>
+        <tr>
+          <td>
+            <p data-id="react-email-text" style="font-size:14px;color:#3c4043">Thank you,</p>
+            <p data-id="react-email-text" style="font-size:14px;color:#3c4043">PulsePlay Digital</p>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <table align="center" width="100%" data-id="react-email-section" style="background-color:#f0fcff;width:90%;border-radius:5px;overflow:hidden;padding-left:20px" border="0" cellPadding="0" cellSpacing="0" role="presentation">
+      <tbody>
+        <tr>
+          <td>
+            <p data-id="react-email-text" style="font-size:14px;line-height:22px;margin:16px 0;color:#3c4043">Connect with us</p>
+            <table align="left" width="100%" data-id="react-email-row" style="width:84px;float:left" role="presentation" cellSpacing="0" cellPadding="0" border="0">
+              <tbody style="width:100%">
+                <tr style="width:100%">
+                  <td data-id="__react-email-column" style="padding-right:4px"><a href="https://www.instagram.com/pulseplaydigital/" data-id="react-email-link" target="_blank" style="color:#067df7;text-decoration:none"><img data-id="react-email-img" src="https://pulseplaydigital.sgp1.cdn.digitaloceanspaces.com/20231130-xtyzq-instagram" width="28" height="28" style="display:block;outline:none;border:none;text-decoration:none;padding:5px" /></a></td>
+                  <td data-id="__react-email-column" style="padding-right:4px"><a href="https://www.linkedin.com/company/pulseplaydigital" data-id="react-email-link" target="_blank" style="color:#067df7;text-decoration:none"><img data-id="react-email-img" src="https://pulseplaydigital.sgp1.cdn.digitaloceanspaces.com/20231130-z9crx-linkedin" width="28" height="28" style="display:block;outline:none;border:none;text-decoration:none;padding:5px" /></a></td>
+                  <td data-id="__react-email-column" style="padding-right:4px"><a href="https://twitter.com/PulsePlayD" data-id="react-email-link" target="_blank" style="color:#067df7;text-decoration:none"><img data-id="react-email-img" src="https://pulseplaydigital.sgp1.cdn.digitaloceanspaces.com/20231130-ea33j-twitter" width="27" height="27" style="display:block;outline:none;border:none;text-decoration:none;padding:5px" /></a></td>
+                </tr>
+              </tbody>
+            </table><img data-id="react-email-img" src="https://pulseplaydigital.sgp1.cdn.digitaloceanspaces.com/20231130-hs8bn-google-play-footer" width="540" height="48" style="display:block;outline:none;border:none;text-decoration:none" />
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <table align="center" width="100%" data-id="react-email-section" style="padding:0 40px;padding-bottom:10px" border="0" cellPadding="0" cellSpacing="0" role="presentation">
+      <tbody>
+        <tr>
+          <td>
+            <p data-id="react-email-text" style="font-size:11px;line-height:22px;margin:0;color:#3c4043;text-align:center; margin-top: 30px">© 2024 PulsePlay Digital Private Limited, Dharamshala, Himachal Pradesh 176215</p>
+            <p data-id="react-email-text" style="font-size:11px;line-height:22px;margin:0;color:#3c4043;text-align:center">Please do not share your credentials. This is PulsePlay Digital&#x27;s exclusive CMS Admin panel for internal use only. Any unauthorized use will be punishable by law.</p>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    </td>
+    </tr>
+    </tbody>
+    </table>
+  </body>
+
+</html>
+
+    `;
+  await sendGridEmail({
+    from: `PulsePlay Digital DMS <dms.pulseplaydigital@gmail.com>`,
+    email: [...map, ...map1].toString(),
+    subject: "Fresh Blog Now Live on PulsePlay Digital Website!",
+    content: emailSent,
+  });
+};
+export default blogSendEmail;

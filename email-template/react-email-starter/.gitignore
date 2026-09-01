@@ -1,0 +1,7 @@
+/out
+*out
+node_modules/
+.next/
+.react-email/.next/
+.react-email/node_modules/
+*.log

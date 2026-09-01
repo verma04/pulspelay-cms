@@ -1,0 +1,13 @@
+node_modules/
+dist/
+.next/
+*.log
+*.tgz
+*.tar.gz
+*.zip
+*.gz
+mongodb-*/
+backup/
+.env
+.DS_Store
+yarn.lock
