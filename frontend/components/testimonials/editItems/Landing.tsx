@@ -83,6 +83,15 @@ const Landing = ({
       />
 
       <div className="input-field">
+        <label>YouTube Video URL</label>
+        <input
+          defaultValue={data?.youtubeUrl}
+          {...register("youtubeUrl")}
+          placeholder="https://www.youtube.com/watch?v=..."
+        />
+      </div>
+
+      <div className="input-field">
         <label>
           Case Studies <li>*</li>
         </label>

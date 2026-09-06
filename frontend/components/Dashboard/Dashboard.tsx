@@ -51,7 +51,7 @@ function Dashboard() {
             </div>
           </div>
 
-          {getUser?.role === "admin" &&
+          {getUser?.role?.toLowerCase()?.includes("admin") &&
             <DeviceLog />
           }
 

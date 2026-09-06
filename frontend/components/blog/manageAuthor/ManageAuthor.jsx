@@ -69,7 +69,7 @@ const ManageAuthor = ({ value }) => {
 
   return (
     <>
-      {getUser.role === "admin" && (
+      {getUser?.role?.toLowerCase()?.includes("admin") && (
         <div style={{ marginTop: "1rem" }} onClick={handleOpen}>
           <button>Edit</button>
         </div>

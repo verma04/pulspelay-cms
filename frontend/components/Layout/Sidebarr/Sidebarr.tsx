@@ -28,7 +28,7 @@ function Sidebarr() {
           </div>
         </Link>
 
-        {getUser?.role === "admin" ? (
+        {getUser?.role?.toLowerCase()?.includes("admin") ? (
           <>
             {list.map((set: any, index: any) => (
               <>

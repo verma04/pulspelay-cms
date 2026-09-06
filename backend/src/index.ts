@@ -1,12 +1,10 @@
 /* eslint-disable no-console */
-import * as dotenv from "dotenv";
-dotenv.config();
-
 const { ApolloServer, PubSub } = require("apollo-server-express");
 const mongoose = require("mongoose");
 const express = require("express");
 const bodyParser = require("body-parser");
 import connectDB from "./db/db";
+import * as dotenv from "dotenv";
 import { FaceModel } from "./models/Face";
 import moment from "moment";
 import { LoginSession } from "./models/LoginSession";
@@ -33,10 +31,10 @@ const {
   graphqlUploadExpress, // A Koa implementation is also exported.
 } = require("graphql-upload");
 
-const PORT = process.env.PORT || 4001;
+const PORT = process.env.PORT || process.env.port || 4000;
 const path = require("path");
 const directoryToServe = "client";
-
+dotenv.config();
 const app = express();
 app.use(bodyParser.json({ limit: "50mb" }));
 app.use("/assert", express.static(path.join(__dirname, "..", "public")));
@@ -77,7 +75,7 @@ startServer();
 
 connectDB();
 app.listen(PORT, function () {
-  console.log(`Server ready at http://localhost:${PORT}`);
+  console.log(`Server ready at ${PORT}`);
   console.log(moment());
 });
 

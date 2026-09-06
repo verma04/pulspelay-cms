@@ -16,7 +16,7 @@ export default (WrappedComponent, role, options = { ssr: false }) => {
     }
 
     if (getUser) {
-      if (getUser.role === "admin") {
+      if (getUser?.role?.toLowerCase()?.includes("admin")) {
         return (
           <>
             <WrappedComponent {...props} />
@@ -32,7 +32,7 @@ export default (WrappedComponent, role, options = { ssr: false }) => {
       }
 
       if (
-        getUser.role !== "admin" &&
+        !getUser?.role?.toLowerCase()?.includes("admin") &&
         !getUser?.assignRole?.includes(role.toLowerCase())
       ) {
         return <Error />;

@@ -45,6 +45,8 @@ const Add = ({ resources }) => {
     pdf: String;
 
     video: string;
+
+    youtubeUrl: string;
   };
 
   const [add, { data: data2, error: err2, loading: loading3 }] = useEditTest();

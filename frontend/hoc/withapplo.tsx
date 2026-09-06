@@ -11,7 +11,7 @@ const prod = process.env.NODE_ENV === "production";
 
 const endpoint = prod
   ? "https://api.pulseplaydigital.com"
-  : "http://localhost:4001/graphql";
+  : "http://localhost:4000/graphql";
 const UploadLink = createUploadLink({
   uri: endpoint,
 });

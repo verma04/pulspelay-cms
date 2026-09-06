@@ -26,7 +26,7 @@ function Career() {
               <h4>Blog</h4>
             </div>
             <div className="right">
-              {getUser.role === "admin" && (
+              {getUser?.role?.toLowerCase()?.includes("admin") && (
                 <button
                   id="submit"
                   onClick={() => router.push("/blog/add-category")}
@@ -52,7 +52,7 @@ function Career() {
               color: "#236df6",
             }}
           >
-            {getUser?.role !== "admin" && (
+            {!getUser?.role?.toLowerCase()?.includes("admin") && (
               <>
                 * Kindly reach out to the administrator to submit your blog.
                 Upon approval, it will be featured in the PulsePlayDigital blog

@@ -60,7 +60,7 @@ const clientsResolvers = {
 
     async getSingleClientsBySlug(_: any, { slug }: any, context: any) {
       try {
-        const data2 = await Work.findOne({ slug , status: true });
+        const data2 = await Work.findOne({ slug, status: true });
 
         const team = await TeamMember.find({ status: true }).sort({
           memberDateOfJoinnng: 1,
@@ -127,7 +127,7 @@ const clientsResolvers = {
       }
     },
 
-    async getTestimonial(_: any, {}: any, context: any) {
+    async getTestimonial(_: any, { }: any, context: any) {
       try {
         const user = checkAuth(context);
 

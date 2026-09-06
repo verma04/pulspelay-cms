@@ -44,6 +44,7 @@ module.exports = gql`
 
     testimoniaDesignation: String
     testimonialImage: String
+    youtubeUrl: String
     slug: String
     sort: Int
     status: Boolean
@@ -1063,6 +1064,7 @@ module.exports = gql`
       testimoniaDesignation: String
 
       testimonialImage: String
+      youtubeUrl: String
 
       status: Boolean
     ): Testimonial

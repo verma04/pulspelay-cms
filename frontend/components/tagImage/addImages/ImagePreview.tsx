@@ -15,6 +15,12 @@ function ImagePreview({ src, markers, setMarkers }) {
     setMarkers([...markers, data1]);
   };
   const handle = useFullScreenHandle();
+  const resolveSrc = (rawSrc: string) => {
+    if (!rawSrc) return "/20211223-6sle4-assa.png";
+    if (rawSrc.startsWith("http://") || rawSrc.startsWith("https://") || rawSrc.startsWith("data:")) return rawSrc;
+    return `http://localhost:4000${rawSrc.startsWith("/") ? "" : "/"}${rawSrc}`;
+  };
+
   return (
     <>
       <button
@@ -27,7 +33,7 @@ function ImagePreview({ src, markers, setMarkers }) {
       <FullScreen handle={handle}>
         <div style={{ padding: "2rem" }}>
           <ImageMarker
-            src={`https://pulseplaydigital.sgp1.digitaloceanspaces.com${src}`}
+            src={resolveSrc(src)}
             markers={markers}
             onAddMarker={(marker: Marker) => newMakers(marker)}
             markerComponent={(props) => (

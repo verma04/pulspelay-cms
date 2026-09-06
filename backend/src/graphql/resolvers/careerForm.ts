@@ -22,14 +22,14 @@ const s3 = new AWS.S3({
 });
 const careerFormResolvers = {
   Query: {
-    async getAllCareer(_: any, {}: any, context: any) {
+    async getAllCareer(_: any, { }: any, context: any) {
       try {
         return CareerForm.find({}).sort({ createdAt: -1 });
       } catch (error) {
         throw error;
       }
     },
-    async getHireUs(_: any, {}: any, context: any) {
+    async getHireUs(_: any, { }: any, context: any) {
       try {
         const { id } = checkAuth(context);
         return HireUsForm.find({}).sort({ createdAt: -1 });
@@ -118,15 +118,15 @@ const careerFormResolvers = {
    <li>CV: <a   href={https://pulseplaydigital.sgp1.digitaloceanspaces.com/${newFilename}} >View CV  </a > </li>
             `;
 
-     await   sendGridEmail({
+        await sendGridEmail({
           content: mess,
           email: "careers@pulseplaydigital.com, hr@pulseplaydigital.com, deepakrai9@gmail.com, ",
           subject: "New Career form received",
-       attachments: `https://pulseplaydigital.sgp1.digitaloceanspaces.com/${newFilename}.pdf`,
-          cc :"ranjeet@pulseplaydigital.com, anup@pulseplaydigital.com"
-     });
-        
-           const newsLetter = new NewsLetter({
+          attachments: `https://pulseplaydigital.sgp1.digitaloceanspaces.com/${newFilename}.pdf`,
+          cc: "ranjeet@pulseplaydigital.com, anup@pulseplaydigital.com"
+        });
+
+        const newsLetter = new NewsLetter({
           email: candidateEmail,
           createdAt: new Date().toISOString(),
         });

@@ -48,7 +48,7 @@ const Status = ({ value }) => {
 
   return (
     <>
-      {getUser.role === "admin" && (
+      {getUser?.role?.toLowerCase()?.includes("admin") && (
         <div onClick={handleOpen}>
           {status ? (
             <Tooltip title="Published">
@@ -112,7 +112,7 @@ const Status = ({ value }) => {
         </div>
       )}
 
-      {getUser.role !== "admin" && (
+      {!getUser?.role?.toLowerCase()?.includes("admin") && (
         <>
           {status ? (
             <Tooltip title="Published">
