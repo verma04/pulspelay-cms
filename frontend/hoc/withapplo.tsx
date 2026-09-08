@@ -1,7 +1,5 @@
 import withApollo from "next-with-apollo";
 import { InMemoryCache, ApolloClient } from '@apollo/client';
-
-
 import { ApolloProvider } from "@apollo/react-hooks";
 import { HttpLink } from "apollo-link-http";
 import { ApolloLink, from } from "apollo-link";
@@ -11,7 +9,7 @@ const prod = process.env.NODE_ENV === "production";
 
 const endpoint = prod
   ? "https://api.pulseplaydigital.com"
-  : "http://localhost:4000/graphql";
+  : (process.env.NEXT_PUBLIC_GRAPHQL_URI || "http://localhost:4000/graphql");
 const UploadLink = createUploadLink({
   uri: endpoint,
 });

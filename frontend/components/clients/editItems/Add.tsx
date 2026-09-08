@@ -35,71 +35,74 @@ import Category from "./Category";
 import { OutReach } from "./outreach";
 import OutComes from "./outcomes";
 import Branding from "./Branding";
-const Add = ({ clients }) => {
+const Add = ({ clients }: any) => {
+  if (!clients) {
+    return null;
+  }
   const [goAway, setGoAway] = useState("");
 
-  const [services, setservices] = React.useState(clients.services);
-  const [employeeWork, setemployeeWork] = React.useState(clients.employeeWork);
+  const [services, setservices] = React.useState(clients?.services);
+  const [employeeWork, setemployeeWork] = React.useState(clients?.employeeWork);
 
   const [projectDescription, setprojectDescription] = React.useState(
-    clients.projectDescription
+    clients?.projectDescription
   );
 
-  const [projectLogo, setprojectLogo] = React.useState(clients.projectLogo);
+  const [projectLogo, setprojectLogo] = React.useState(clients?.projectLogo);
   const [websiteImgLeft, setwebsiteImgLeft] = React.useState(
-    clients.website.websiteImgLeft
+    clients?.website?.websiteImgLeft
   );
   const [websiteImgRight, setwebsiteImgRight] = React.useState(
-    clients.website.websiteImgRight
+    clients?.website?.websiteImgRight
   );
   const [projectLogoTransparent, setprojectLogoTransparent] = React.useState(
-    clients.projectLogoTransparent
+    clients?.projectLogoTransparent
   );
-  const [branding, setBranding] = React.useState(clients.branding.branding);
+  const [branding, setBranding] = React.useState(clients?.branding?.branding);
   const [clientColorTheme, setclientColorTheme] = React.useState(
-    clients.clientColorTheme
+    clients?.clientColorTheme
   );
   const [blackLogo, setBlackLogo] = React.useState(
-    clients.blackAndWhiteLogo.logo
+    clients?.blackAndWhiteLogo?.logo
   );
   const [isVisible, setIsVisible] = React.useState(
-    clients.blackAndWhiteLogo.isVisible
+    clients?.blackAndWhiteLogo?.isVisible
   );
 
-  const [outReach, setoutReach] = React.useState(clients.outReach.outReach);
-  const [outReach2, setoutReach2] = React.useState(clients.outReach.outReach2);
-  const [outReach3, setoutReach3] = React.useState(clients.outReach.outReach3);
-  const [outReach4, setoutReach4] = React.useState(clients.outReach.outReach4);
+  const [outReach, setoutReach] = React.useState(clients?.outReach?.outReach);
+  const [outReach2, setoutReach2] = React.useState(clients?.outReach?.outReach2);
+  const [outReach3, setoutReach3] = React.useState(clients?.outReach?.outReach3);
+  const [outReach4, setoutReach4] = React.useState(clients?.outReach?.outReach4);
 
-  console.log(clients.social);
-  const [mobile, setMobile] = React.useState(clients.social.mobile);
-  const [column1Img, setcolumn1Img] = React.useState(clients.social.column1Img);
+  console.log(clients?.social);
+  const [mobile, setMobile] = React.useState(clients?.social?.mobile);
+  const [column1Img, setcolumn1Img] = React.useState(clients?.social?.column1Img);
   const [column1Img2, setcolumn1Img2] = React.useState(
-    clients.social.column1Img2
+    clients?.social?.column1Img2
   );
 
-  const [column2Img, setcolumn2Img] = React.useState(clients.social.column2Img);
+  const [column2Img, setcolumn2Img] = React.useState(clients?.social?.column2Img);
   const [column2Img2, setcolumn2Img2] = React.useState(
-    clients.social.column2Img2
+    clients?.social?.column2Img2
   );
   const [column2Img3, setcolumn2Img3] = React.useState(
-    clients.social.column2Img3
+    clients?.social?.column2Img3
   );
 
-  const [column3Img, setcolumn3Img] = React.useState(clients.social.column3Img);
+  const [column3Img, setcolumn3Img] = React.useState(clients?.social?.column3Img);
   const [column3Img2, setcolumn3Img2] = React.useState(
-    clients.social.column3Img2
+    clients?.social?.column3Img2
   );
   const [column3Img3, setcolumn3Img3] = React.useState(
-    clients.social.column3Img3
+    clients?.social?.column3Img3
   );
   const [column3Img4, setcolumn3Img4] = React.useState(
-    clients.social.column3Img4
+    clients?.social?.column3Img4
   );
 
-  const [column4Img, setcolumn4Img] = React.useState(clients.social.column4Img);
+  const [column4Img, setcolumn4Img] = React.useState(clients?.social?.column4Img);
   const [projectIndustry, setprojectIndustry] = React.useState<string[]>(
-    clients.projectIndustry
+    clients?.projectIndustry
   );
 
   const router = useRouter();
@@ -150,96 +153,88 @@ const Add = ({ clients }) => {
   } = useForm<Inputs>();
 
   const onSubmit: SubmitHandler<Inputs> = (data) => {
-    if (
-      projectLogo === null ||
-      projectLogoTransparent === null ||
-      branding === null
-    )
-      toast.error("Upload Requird Image");
-    else {
-      const websiteClient = {
-        website,
-        websiteUrl: data.websiteUrl,
-        websiteImgLeft,
-        websiteImgRight,
-      };
-      const brandingClient = {
-        branding,
-        taglines: data.taglines,
-        singleWord: data.singleWord,
-      };
+    const websiteClient = {
+      website,
+      websiteUrl: data.websiteUrl,
+      websiteImgLeft,
+      websiteImgRight,
+    };
+    const brandingClient = {
+      branding,
+      taglines: data.taglines,
+      singleWord: data.singleWord,
+    };
 
-      const socialClient = {
-        social,
-        mobile,
-        column1Img,
+    const socialClient = {
+      social,
+      mobile,
+      column1Img,
 
-        column1Img2,
+      column1Img2,
 
-        column2Img,
+      column2Img,
 
-        column2Img2,
+      column2Img2,
 
-        column2Img3,
+      column2Img3,
 
-        column3Img,
+      column3Img,
 
-        column3Img2,
+      column3Img2,
 
-        column3Img3,
+      column3Img3,
 
-        column3Img4,
+      column3Img4,
 
-        column4Img,
-      };
-      const videoClient = {
-        video,
-        url: data.projectVideo,
-      };
-      const outReachClient = {
-        outreach,
-        outReach,
-        outReach2,
-        outReach3,
-        outReach4,
-      };
-      const outcomesClient = {
-        outcomes,
-        list,
-      };
+      column4Img,
+    };
+    const videoClient = {
+      video,
+      url: data.projectVideo,
+    };
+    const outReachClient = {
+      outreach,
+      outReach,
+      outReach2,
+      outReach3,
+      outReach4,
+    };
+    const outcomesClient = {
+      outcomes,
+      list,
+    };
 
-      const blackAndWhiteLogo = {
-        logo: blackLogo,
-        isVisible,
-      };
+    const blackAndWhiteLogo = {
+      logo: blackLogo,
+      isVisible,
+    };
 
-      const set = {
-        id: clients.id,
-        projectLogo,
-        blackAndWhiteLogo: JSON.stringify(blackAndWhiteLogo),
-        projectLogoTransparent,
-        clientColorTheme,
-        employeeWork: JSON.stringify(employeeWork),
-        status,
-        projectIndustry: JSON.stringify(projectIndustry),
-        services: JSON.stringify(services),
+    const set = {
+      id: clients.id,
+      projectLogo,
+      blackAndWhiteLogo: JSON.stringify(blackAndWhiteLogo),
+      projectLogoTransparent,
+      clientColorTheme,
+      employeeWork: JSON.stringify(employeeWork),
+      status,
+      projectIndustry: JSON.stringify(projectIndustry),
+      services: JSON.stringify(services),
 
-        projectDescription,
-        area: JSON.stringify(area),
-        tools: JSON.stringify(tools),
-        website: JSON.stringify(websiteClient),
-        branding: JSON.stringify(brandingClient),
+      projectDescription,
+      area: JSON.stringify(area),
+      tools: JSON.stringify(tools),
+      website: JSON.stringify(websiteClient),
+      branding: JSON.stringify(brandingClient),
 
-        social: JSON.stringify(socialClient),
-        video: JSON.stringify(videoClient),
-        outReach: JSON.stringify(outReachClient),
-        outcomes: JSON.stringify(outcomesClient),
+      social: JSON.stringify(socialClient),
+      video: JSON.stringify(videoClient),
+      outReach: JSON.stringify(outReachClient),
+      outcomes: JSON.stringify(outcomesClient),
 
-        ...data,
-      };
+      ...data,
+    };
 
-      add({ variables: set });
-    }
+    add({ variables: set });
   };
 
   if (data2) {

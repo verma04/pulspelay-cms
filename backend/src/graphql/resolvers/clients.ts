@@ -277,9 +277,9 @@ const clientsResolvers = {
         id,
         testimonialDescription,
         testimoniaDesignation,
-
+        caseStudies,
         testimonialImage,
-
+        youtubeUrl,
         status,
       }: any,
       context: any
@@ -287,19 +287,27 @@ const clientsResolvers = {
       try {
         const user = checkAuth(context);
 
+        const updateData: any = {
+          testimonialName,
+          testimonialDescription,
+          testimoniaDesignation,
+          testimonialImage,
+          youtubeUrl,
+          updatedBy: user.id,
+          status,
+        };
+
+        if (caseStudies) {
+          updateData.caseStudies =
+            typeof caseStudies === "string"
+              ? JSON.parse(caseStudies)
+              : caseStudies;
+        }
+
         const something = await Testimonial.findOneAndUpdate(
           { _id: id },
           {
-            $set: {
-              testimonialName,
-
-              testimonialDescription,
-              testimoniaDesignation,
-
-              testimonialImage,
-              updatedBy: user.id,
-              status,
-            },
+            $set: updateData,
           },
           { new: true, upsert: true }
         )

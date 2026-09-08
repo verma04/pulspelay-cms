@@ -15,9 +15,9 @@ const Home: NextPage = withauth(() => {
   const { id } = router.query;
 
   console.log(id);
-  const { loading, error, data } = useGetOneClient({ variables: { id: id } });
+  const { loading, error, data } = useGetOneClient({ variables: { id: id }, skip: !id });
 
-  if (loading) {
+  if (loading || !data?.getSingleClients) {
     return null;
   }
 

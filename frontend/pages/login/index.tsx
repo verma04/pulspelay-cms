@@ -23,14 +23,15 @@ const Login = () => {
       <LoginForm
         loading={loading}
         onSubmit={(submbitData) => {
+          const browserInfo = detect() || {};
           const data = {
             ...submbitData,
-            ...ip,
+            ...(ip || {}),
             deviceId: uuidv4(),
-            deviceOs: detect().os,
-            deviceBrowser: detect().name,
-            ipAddress: ip.ip,
-            deviceVersion: detect().version,
+            deviceOs: browserInfo.os || "Web",
+            deviceBrowser: browserInfo.name || "Browser",
+            ipAddress: ip?.ip || "127.0.0.1",
+            deviceVersion: browserInfo.version || "1.0",
           };
           Login({ variables: data });
         }}

@@ -1152,8 +1152,8 @@ query GetSingleTestimonial($id: ID) {
   }
 }`;
 export const EDIT_TEST = gql`
-mutation EditTestimonial($testimonialName: String, $id: ID, $testimonialDescription: String, $testimoniaDesignation: String, $testimonialImage: String, $youtubeUrl: String, $status: Boolean) {
-  editTestimonial(testimonialName: $testimonialName, id: $id, testimonialDescription: $testimonialDescription, testimoniaDesignation: $testimoniaDesignation, testimonialImage: $testimonialImage, youtubeUrl: $youtubeUrl, status: $status) {
+mutation EditTestimonial($testimonialName: String, $id: ID, $testimonialDescription: String, $testimoniaDesignation: String, $caseStudies: String, $testimonialImage: String, $youtubeUrl: String, $status: Boolean) {
+  editTestimonial(testimonialName: $testimonialName, id: $id, testimonialDescription: $testimonialDescription, testimoniaDesignation: $testimoniaDesignation, caseStudies: $caseStudies, testimonialImage: $testimonialImage, youtubeUrl: $youtubeUrl, status: $status) {
       ${test}
   }
 }`;

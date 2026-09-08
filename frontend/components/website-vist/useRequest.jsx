@@ -11,7 +11,7 @@ const graphQLClient = new GraphQLClient(API_URL, {
 });
 
 export function useGetPosts() {
-  return useQuery("get-posts",  async () => {
+  return useQuery("get-posts", async () => {
     const data = await graphQLClient.request(gql`
       query {
         getAllDeivceInfo {

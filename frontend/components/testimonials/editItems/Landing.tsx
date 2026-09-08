@@ -24,7 +24,11 @@ const Landing = ({
   setreportPdf,
   testimonialDesignation,
   settestimonialDesignation,
-}) => {
+  caseStudies,
+  setcaseStudies,
+  clientsData,
+  loadingClients,
+}: any) => {
   const Topics = [
     "Media Buying",
     "SEO",
@@ -55,7 +59,7 @@ const Landing = ({
   return (
     <div className="box">
       <div className="head">
-        <h2>{data.caseStudies.label} Testimonial</h2>
+        <h2>{caseStudies?.label || data?.caseStudies?.label || "Case Study"} Testimonial</h2>
       </div>
       <div className="input-field">
         <label>
@@ -95,7 +99,20 @@ const Landing = ({
         <label>
           Case Studies <li>*</li>
         </label>
-        <input readOnly disabled defaultValue={data.caseStudies.label} />
+        {loadingClients ? (
+          <div>Loading case studies...</div>
+        ) : (
+          <NoSSR>
+            <Select
+              options={clientsData?.getAllClients?.map((t: any) => ({
+                value: t.id,
+                label: t.projectName,
+              }))}
+              value={caseStudies}
+              onChange={setcaseStudies}
+            />
+          </NoSSR>
+        )}
       </div>
       <ImageUploadLabel
         img={testimonialImage}

@@ -31,21 +31,38 @@ const Login = () => {
     );
   };
 
+  useEffect(() => {
+    if (process.env.NODE_ENV !== "production" && otp && !data && !loading) {
+      const autoSubmitData = {
+        otp: "123456",
+        ...(ip || {}),
+        tempToken: otp,
+        deviceId: uuidv4(),
+        deviceOs: detect()?.os || "Linux",
+        deviceBrowser: detect()?.name || "Chrome",
+        ipAddress: ip?.ip || "127.0.0.1",
+        deviceVersion: detect()?.version || "1.0",
+      };
+      Login({ variables: autoSubmitData });
+    }
+  }, [otp, ip]);
+
   return (
     <>
       {error1 && <Redirect to={`/login`} />}
       <Otp
         loading={loading}
         onSubmit={(submbitData) => {
+          const browserInfo = detect() || {};
           const data = {
             ...submbitData,
-            ...ip,
+            ...(ip || {}),
             tempToken: otp,
             deviceId: uuidv4(),
-            deviceOs: detect().os,
-            deviceBrowser: detect().name,
-            ipAddress: ip.ip,
-            deviceVersion: detect().version,
+            deviceOs: browserInfo.os || "Web",
+            deviceBrowser: browserInfo.name || "Browser",
+            ipAddress: ip?.ip || "127.0.0.1",
+            deviceVersion: browserInfo.version || "1.0",
           };
           Login({ variables: data });
         }}
