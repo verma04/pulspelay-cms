@@ -7,8 +7,7 @@
     "build": "tsc",
     "start": "tsc & nodemon  .",
     "dev": "nodemon src/index.ts",
-    "seed": "ts-node src/db/seed.ts",
-    "seed:admin": "ts-node src/seedAdmin.ts"
+    "seed": "ts-node src/db/seed.ts"
   },
   "author": "",
   "license": "ISC",
