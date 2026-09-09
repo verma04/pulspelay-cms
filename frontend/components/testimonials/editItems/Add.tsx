@@ -6,7 +6,7 @@ import Landing from "./Landing";
 
 import { toast } from "react-toastify";
 
-import { useEditTest } from "@apolloo/actions";
+import { useEditTest, useGetAllClient } from "@apolloo/actions";
 
 import { useForm, SubmitHandler } from "react-hook-form";
 
@@ -19,6 +19,22 @@ import { SubmitButton } from "@components/List/SubmitButton";
 const Add = ({ resources }) => {
   console.log(resources);
   const router = useRouter();
+
+  const { loading: loadingClients, data: clientsData } = useGetAllClient();
+
+  const initialCaseStudies = React.useMemo(() => {
+    if (!resources?.caseStudies) return null;
+    if (typeof resources.caseStudies === "string") {
+      try {
+        return JSON.parse(resources.caseStudies);
+      } catch {
+        return { value: resources.caseStudies, label: resources.caseStudies };
+      }
+    }
+    return resources.caseStudies;
+  }, [resources?.caseStudies]);
+
+  const [caseStudies, setcaseStudies] = React.useState(initialCaseStudies);
 
   const [contentTypes, setcontentTypes] = React.useState(
     resources.contentTypes
@@ -45,6 +61,8 @@ const Add = ({ resources }) => {
     pdf: String;
 
     video: string;
+
+    youtubeUrl: string;
   };
 
   const [add, { data: data2, error: err2, loading: loading3 }] = useEditTest();
@@ -59,6 +77,8 @@ const Add = ({ resources }) => {
   const onSubmit: SubmitHandler<Inputs> = (data) => {
     if (testimonialImage === null) {
       toast.error("Upload Image");
+    } else if (!caseStudies) {
+      toast.error("Select Case Study");
     } else {
       const set = {
         testimonialImage,
@@ -66,7 +86,7 @@ const Add = ({ resources }) => {
         id: resources.id,
         testimonialDescription,
         testimoniaDesignation: testimonialDesignation,
-
+        caseStudies: JSON.stringify(caseStudies),
         ...data,
       };
 
@@ -146,6 +166,10 @@ const Add = ({ resources }) => {
               data={resources}
               testimonialDesignation={testimonialDesignation}
               settestimonialDesignation={settestimonialDesignation}
+              caseStudies={caseStudies}
+              setcaseStudies={setcaseStudies}
+              clientsData={clientsData}
+              loadingClients={loadingClients}
             />
           </div>
         </div>

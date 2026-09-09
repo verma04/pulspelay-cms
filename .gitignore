@@ -65,3 +65,7 @@ lib-cov
 *.dist
 tmp/
 results/
+
+# Claude
+.claude/
+CLAUDE.md

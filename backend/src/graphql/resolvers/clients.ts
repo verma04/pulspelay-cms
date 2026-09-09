@@ -60,7 +60,7 @@ const clientsResolvers = {
 
     async getSingleClientsBySlug(_: any, { slug }: any, context: any) {
       try {
-        const data2 = await Work.findOne({ slug , status: true });
+        const data2 = await Work.findOne({ slug, status: true });
 
         const team = await TeamMember.find({ status: true }).sort({
           memberDateOfJoinnng: 1,
@@ -78,17 +78,6 @@ const clientsResolvers = {
             fin.push(element);
           }
         });
-
-        // if (data2.employeeWork) {
-        //   await data2.employeeWork.forEach((element: any) => {
-        //     const set = team.find((t: any) => t.id === element.value);
-
-        //     if (set) {
-        //       arr.push(set);
-        //     }
-        //   });
-
-        //   return { id: data2._id, ...data2._doc, work: arr, test: fin[0] };
 
         return { id: data2._id, ...data2._doc, work: arr, test: fin[0] };
       } catch (error) {
@@ -277,9 +266,9 @@ const clientsResolvers = {
         id,
         testimonialDescription,
         testimoniaDesignation,
-
+        caseStudies,
         testimonialImage,
-
+        youtubeUrl,
         status,
       }: any,
       context: any
@@ -287,19 +276,27 @@ const clientsResolvers = {
       try {
         const user = checkAuth(context);
 
+        const updateData: any = {
+          testimonialName,
+          testimonialDescription,
+          testimoniaDesignation,
+          testimonialImage,
+          youtubeUrl,
+          updatedBy: user.id,
+          status,
+        };
+
+        if (caseStudies) {
+          updateData.caseStudies =
+            typeof caseStudies === "string"
+              ? JSON.parse(caseStudies)
+              : caseStudies;
+        }
+
         const something = await Testimonial.findOneAndUpdate(
           { _id: id },
           {
-            $set: {
-              testimonialName,
-
-              testimonialDescription,
-              testimoniaDesignation,
-
-              testimonialImage,
-              updatedBy: user.id,
-              status,
-            },
+            $set: updateData,
           },
           { new: true, upsert: true }
         )

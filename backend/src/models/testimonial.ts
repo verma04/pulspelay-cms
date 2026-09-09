@@ -14,6 +14,9 @@ const testimonialSchema = new Schema({
   testimonialImage: {
     type: String,
   },
+   youtubeUrl: {
+    type: String,
+  },
   slug: {
     type: String,
   },
