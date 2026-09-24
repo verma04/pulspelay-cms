@@ -117,12 +117,7 @@ import { useRouter } from "next/router";
 
 import { ToastContainer, toast } from "react-toastify";
 import SuccessToast from "@components/commanError/SuccessToast";
-export const useSignIn = () =>
-  useMutation(SIGN_IN, {
-    update(cache, { data: { login } }) {
-      return <SuccessToast data="sdd" />;
-    },
-  });
+export const useSignIn = (options?: any) => useMutation(SIGN_IN, options);
 
 export const useOtpSignIn = () =>
   useMutation(OTP, {

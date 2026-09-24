@@ -1,62 +1,57 @@
-import { useRef } from "react";
 import LoginForm from "../../components/Auth/Login";
-
 import { useSignIn } from "../../apollo/actions";
 import { useRouter } from "next/router";
-import Redirect from "../../components/shared/Redirect";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import { detect } from "detect-browser";
 import { v4 as uuidv4 } from "uuid";
 import useAxios from "axios-hooks";
 import CommanError from "@components/commanError/CommanError";
 
 const Login = () => {
-  const [{ data: ip }, refetch] = useAxios("https://ipapi.co/json/");
-
-  const disposeId = useRef(null);
-  const [Login, { data, loading, error }] = useSignIn();
+  const [{ data: ip }] = useAxios("https://ipapi.co/json/");
   const router = useRouter();
-  const { message } = router.query;
+
+  const [loginMutation, { loading, error }] = useSignIn({
+    onCompleted(data: any) {
+      if (data?.login?.tempToken) {
+        toast.success("Enter otp sent to your email address", {
+          toastId: "otp-sent",
+        });
+        router.push(`/login/${data.login.tempToken}`);
+      }
+    },
+  });
 
   return (
     <>
       <LoginForm
         loading={loading}
-        onSubmit={(submbitData) => {
+        onSubmit={async (submbitData) => {
+          const browserInfo = detect();
           const data = {
             ...submbitData,
             ...ip,
             deviceId: uuidv4(),
-            deviceOs: detect().os,
-            deviceBrowser: detect().name,
-            ipAddress: ip.ip,
-            deviceVersion: detect().version,
+            deviceOs: browserInfo?.os,
+            deviceBrowser: browserInfo?.name,
+            ipAddress: ip?.ip,
+            deviceVersion: browserInfo?.version,
           };
-          Login({ variables: data });
+
+          try {
+            const res = await loginMutation({ variables: data });
+            if (res?.data?.login?.tempToken) {
+              toast.success("Enter otp sent to your email address", {
+                toastId: "otp-sent",
+              });
+              router.push(`/login/${res.data.login.tempToken}`);
+            }
+          } catch (err) {
+            // error handled by mutation state
+          }
         }}
-      // onSubmit={(signInData: any) => Login({ variables: signInData })}
       />
-      {data && data.login && (
-        <>
-          {toast.success(
-            `Enter otp sent to your email address`, {
-            toastId: "sdds"
-          }
-          )
-
-          }
-
-
-        </>
-      ) &&
-
-        <Redirect to={`/login/${data.login.tempToken}`} />}
-
-      {error && (
-        <>
-          <CommanError error={error} />
-        </>
-      )}
+      {error && <CommanError error={error} />}
     </>
   );
 };
