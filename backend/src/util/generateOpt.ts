@@ -1,12 +1,15 @@
 import sendGridEmail from "./sendGridEmail";
-import sendPhoneMessage from "./sendPhoneMessage";
 
 const generateOpt = async ({ user, otp }: any) => {
-  console.log(user, otp);
-  await sendGridEmail({
-    email: user.email,
-    cc: [user.email2].toString(),
-    subject: "One Time OTP",
+  console.log("Generating OTP for user:", user?.email || user?.username, "OTP:", otp);
+  const targetEmail = user?.email || user?.email2;
+  const ccEmail = user?.email2 && user?.email && user.email2 !== user.email ? user.email2 : undefined;
+
+  if (targetEmail) {
+    await sendGridEmail({
+      email: targetEmail,
+      cc: ccEmail,
+      subject: "One Time OTP",
     content: `<!doctype html>
           <html lang="en-US">
           
@@ -86,12 +89,8 @@ const generateOpt = async ({ user, otp }: any) => {
           </body>
           
           </html>`,
-  });
-
-  await sendPhoneMessage({
-    to: `91${user.phone}`,
-    text: `Hello, Please use the verification code below on the PulsePlay Cms: ${otp} .If you didn't request this, you can ignore this email or let us know. Thanks!`,
-  });
+    });
+  }
 };
 
 export default generateOpt;

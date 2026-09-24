@@ -12,9 +12,11 @@ const DeivceInfoResolvers = {
   Query: {
     async getUserLog(_: any, { id }: any, context: any) {
       try {
-        const data2 = await DeviceInfo.find({ user: id }).sort({
-          createdAt: -1,
-        });
+        const data2 = await DeviceInfo.find({ user: id })
+          .sort({
+            createdAt: -1,
+          })
+          .allowDiskUse(true);
 
         return data2;
       } catch (error) {
@@ -71,7 +73,9 @@ const DeivceInfoResolvers = {
     },
     async getAllDeivceInfo(_: any, { data }: any, context: any) {
       try {
-        const data2 = await DeviceInfo.find({}).sort({ createdAt: -1 });
+        const data2 = await DeviceInfo.find({})
+          .sort({ createdAt: -1 })
+          .allowDiskUse(true);
 
         return data2;
       } catch (error) {
@@ -81,7 +85,9 @@ const DeivceInfoResolvers = {
 
     async getKnownUser(_: any, { data }: any, context: any) {
       try {
-        const data2 = await KnownUser.find({}).sort({ createdAt: -1 });
+        const data2 = await KnownUser.find({})
+          .sort({ createdAt: -1 })
+          .allowDiskUse(true);
 
         return data2;
       } catch (error) {

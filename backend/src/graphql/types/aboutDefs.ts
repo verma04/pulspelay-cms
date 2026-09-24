@@ -1029,10 +1029,11 @@ cron.schedule("01 00 * * *", async () => {
     console.log(error);
   }
 });
-const accountSid = process.env.TWILIO_ACCOUNT_SID || "";
-const authToken = process.env.TWILIO_AUTH_TOKEN || "";
+const accountSid = process.env.TWILIO_ACCOUNT_SID;
+const authToken = process.env.TWILIO_AUTH_TOKEN;
 
-const client = require("twilio")(accountSid, authToken);
+const client =
+  accountSid && authToken ? require("twilio")(accountSid, authToken) : null;
 
 //@tag-image emailer
 

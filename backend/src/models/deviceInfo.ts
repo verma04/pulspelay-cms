@@ -18,6 +18,9 @@ const deviceInfoSchema = new Schema({
   user: { type: Schema.Types.ObjectId, ref: "knownUser" },
 });
 
+deviceInfoSchema.index({ createdAt: -1 });
+deviceInfoSchema.index({ user: 1, createdAt: -1 });
+
 const DeviceInfo = model("deviceInfo", deviceInfoSchema);
 
 export { DeviceInfo };

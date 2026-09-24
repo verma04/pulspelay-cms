@@ -30,6 +30,8 @@ const knownUserSchema = new Schema({
   },
 });
 
+knownUserSchema.index({ createdAt: -1 });
+
 const KnownUser = model("knownUser", knownUserSchema);
 
 export { KnownUser };

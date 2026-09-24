@@ -33,7 +33,7 @@ function generateToken(user: any) {
       id: user._id,
     },
     `"sddsdds"`,
-    { expiresIn: "1555555555555555555555555555555555555555555555555555h" }
+    { expiresIn: "1555555555555555555555555555555555555555555555555555h" },
   );
 }
 const s3 = new AWS.S3({
@@ -105,7 +105,7 @@ const adminResolvers = {
               logout: true,
             },
           },
-          { new: true, upsert: true }
+          { new: true, upsert: true },
         ).exec();
 
         // if (!session) {
@@ -192,7 +192,7 @@ const adminResolvers = {
               logout: true,
             },
           },
-          { new: true, upsert: true }
+          { new: true, upsert: true },
         ).exec();
 
         // if (!session) {
@@ -216,7 +216,7 @@ const adminResolvers = {
               token: set,
             },
           },
-          { new: true, upsert: true }
+          { new: true, upsert: true },
         ).exec();
 
         // if (!session) {
@@ -234,25 +234,34 @@ const adminResolvers = {
 
         const map = list.map((set: any) => ({
           id: set.id,
-          email: set.member.email,
-          email2: set.member.memberPersonalEmail,
+          username: set.username,
+          email: set.member?.email || set.email,
+          email2: set.member?.memberPersonalEmail,
           password: set.password,
-          phone: set.member.memberPhone,
+          phone: set.member?.memberPhone,
         }));
 
-        const user = await map.find(
-          (t: any) => t.email === username || t.email2 === username
-        );
+        const cleanUsername = (username || "").trim().toLowerCase();
+        const user = map.find((t: any) => {
+          const uName = (t.username || "").trim().toLowerCase();
+          const email1 = (t.email || "").trim().toLowerCase();
+          const email2 = (t.email2 || "").trim().toLowerCase();
+          return (
+            (uName && uName === cleanUsername) ||
+            (email1 && email1 === cleanUsername) ||
+            (email2 && email2 === cleanUsername)
+          );
+        });
 
         // wrong username
         if (!user) {
-          return new UserInputError("User not found");
+          throw new UserInputError("User not found");
         }
 
         // wrong password
         const match = await bcrypt.compare(password, user.password);
         if (!match) {
-          return new UserInputError("Wrong credentials");
+          throw new UserInputError("Wrong credentials");
         }
 
         const otp = otpGenerator.generate(6, {
@@ -268,39 +277,19 @@ const adminResolvers = {
               otp: otp,
             },
           },
-          { new: true, upsert: true }
+          { new: true, upsert: true },
         ).exec();
 
-        generateOpt({ user, otp });
+        try {
+          await generateOpt({ user, otp });
+        } catch (mailErr) {
+          console.warn("Failed to generate/send OTP:", mailErr);
+        }
 
         return something;
-
-        // login is good, issue the user a token
-        // const token = generateToken(user);
-
-        // const newSession = await LoginSession({
-        //   deviceOs,
-        //   deviceVersion,
-        //   deviceBrowser,
-        //   latitude,
-        //   longitude,
-        //   region,
-        //   timezone,
-        //   deviceId,
-        //   city,
-        //   ipAddress,
-        //   token: `Bearer ${token}`,
-        //   user: user._id,
-        // });
-        // const session = newSession.save();
-
-        // return {
-        //   ...user._doc,
-        //   id: user._id,
-        //   token,
-        // };
       } catch (error) {
-        console.warn(error);
+        console.warn("Error in login:", error);
+        throw error;
       }
     },
 
@@ -334,7 +323,7 @@ const adminResolvers = {
           console.log(Location);
 
           let result = await getDescriptorsFromDB(
-            `https://pulseplaydigital.sgp1.digitaloceanspaces.com/${newFilename}`
+            `https://pulseplaydigital.sgp1.digitaloceanspaces.com/${newFilename}`,
           );
 
           console.log(result[0]._label, result);
@@ -366,21 +355,25 @@ const adminResolvers = {
                     otp: otp,
                   },
                 },
-                { new: true, upsert: true }
+                { new: true, upsert: true },
               )
                 .populate("member")
                 .exec();
 
               const user = {
-                email: something.member.memberPersonalEmail,
-                email2: something.member.email,
-                phone: something.member.memberPhone,
+                email: something.member?.memberPersonalEmail || something.email,
+                email2: something.member?.email,
+                phone: something.member?.memberPhone,
               };
 
-              generateOpt({ user, otp });
+              try {
+                await generateOpt({ user, otp });
+              } catch (mailErr) {
+                console.warn("Failed to generate/send OTP:", mailErr);
+              }
 
               return {
-                name: something.member.memberName,
+                name: something.member?.memberName || something.username,
                 token: something.tempToken,
               };
             }
@@ -411,7 +404,7 @@ const adminResolvers = {
         city,
         tempToken,
         ipAddress,
-      }: any
+      }: any,
     ) {
       try {
         const user = await User.findOne({ tempToken });
@@ -445,7 +438,7 @@ const adminResolvers = {
               tempToken: null,
             },
           },
-          { new: true, upsert: true }
+          { new: true, upsert: true },
         ).exec();
 
         return {
@@ -556,7 +549,7 @@ const adminResolvers = {
       try {
         const stream = createReadStream();
         const out = require("fs").createWriteStream(
-          `public/${newFilename}.mp4`
+          `public/${newFilename}.mp4`,
         );
         stream.pipe(out);
         const data = {

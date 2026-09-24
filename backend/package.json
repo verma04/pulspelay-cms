@@ -15,7 +15,6 @@
     "@huggingface/inference": "1",
     "@sendgrid/mail": "^7.7.0",
     "@types/node": "^20.4.9",
-    "@vonage/server-sdk": "^3.10.0",
     "ai": "^1.1.0",
     "apollo-server": "^3.3.0",
     "apollo-server-express": "^3.10.3",
@@ -80,5 +79,11 @@
     "graphql-disable-introspection": "^1.2.0",
     "nodemon": "^2.0.13",
     "prettier": "^2.4.1"
+  },
+  "resolutions": {
+    "undici": "6.21.1"
+  },
+  "volta": {
+    "node": "20.20.2"
   }
 }

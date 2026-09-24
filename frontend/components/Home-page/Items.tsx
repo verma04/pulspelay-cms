@@ -19,20 +19,22 @@ import { useSortHomePage } from "@apolloo/actions/homePage/homepage";
 
 const Items: React.FC = ({ active, data, loading }: any) => {
   const [sort, { error: err2, loading: loading3 }] = useSortHomePage();
-  const set = data.getHomeWork.sort((a, b) => a.sort - b.sort);
-  var result = set.map((t) => ({
+  const set = (data?.getHomeWork ? [...data.getHomeWork] : []).sort(
+    (a: any, b: any) => (a?.sort ?? 0) - (b?.sort ?? 0)
+  );
+  var result = set.map((t: any) => ({
     name: t.id,
     description: t.work?.projectName,
     img: t.image,
   }));
 
-  async function handleDragEnd(event) {
+  async function handleDragEnd(event: any) {
     const { active, over } = event;
 
-    if (active.id !== over.id) {
-      setItems((items) => {
-        const oldIndex = items.findIndex((i) => i.name === active.id);
-        const newIndex = items.findIndex((i) => i.name === over.id);
+    if (active.id !== over?.id) {
+      setItems((items: any) => {
+        const oldIndex = items.findIndex((i: any) => i.name === active.id);
+        const newIndex = items.findIndex((i: any) => i.name === over.id);
 
         return arrayMove(items, oldIndex, newIndex);
       });
@@ -40,7 +42,7 @@ const Items: React.FC = ({ active, data, loading }: any) => {
   }
 
   const upadte = async () => {
-    var result = await items.map((t, index) => ({
+    var result = await items.map((t: any, index: any) => ({
       id: t.name,
       sort: index,
       memberName: t.description,
@@ -49,6 +51,11 @@ const Items: React.FC = ({ active, data, loading }: any) => {
     await sort({ variables: { sort: JSON.stringify(result) } });
   };
   const [items, setItems] = React.useState(result);
+
+  React.useEffect(() => {
+    setItems(result);
+  }, [data]);
+
   const router = useRouter();
   const [edit, usEdit] = React.useState(false);
 
@@ -58,7 +65,7 @@ const Items: React.FC = ({ active, data, loading }: any) => {
 
   console.log(data);
   const columns = useMemo(() => COLUMNS, []);
-  const data1 = useMemo(() => data.getHomeWork, [data]);
+  const data1 = useMemo(() => data?.getHomeWork || [], [data]);
 
   return (
     <>
