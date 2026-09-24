@@ -1,5 +1,5 @@
 import Danger from "@components/svg/Danger";
-import React from "react";
+import React, { useEffect } from "react";
 import Select from "react-select";
 import NoSSR from "react-no-ssr";
 import ImageUploadLabel from "@components/List/ImageUploadLabel";
@@ -10,53 +10,34 @@ const Landing = ({
   register,
   errors,
   data,
-  topics,
-  settopics,
-  contentTypes,
-  setcontentTypes,
-  reportAvatar,
-  setreportAvatar,
   testimonialImage,
   settestimonialImage,
   testimonialDescription,
   settestimonialDescription,
-  reportPdf,
   setreportPdf,
   testimonialDesignation,
   settestimonialDesignation,
-}) => {
-  const Topics = [
-    "Media Buying",
-    "SEO",
-    "Lead Gen",
-    "D2C",
-    "Customer Data Platform (CDP)",
-  ];
-  const ContentTypes = [
-    "Guide",
-    "Case Study",
-    "Video",
-    "Report",
-    "Training",
-    "Webinar",
-  ];
-  const [add, { data: data2, error: err2, loading: loading3 }] = usePdfUpload();
-  const onChange = async (e) => {
-    const data = {
-      file: e.target.files[0],
-    };
-    add({ variables: data });
-  };
+  caseStudies,
+  setcaseStudies,
+  clientsData,
+  loadingClients,
+}: any) => {
+  const [add, { data: data2 }] = usePdfUpload();
 
-  console.log(data2);
-  if (data2) {
-    setreportPdf(data2.pdfUpload.imgUrl);
-  }
+  useEffect(() => {
+    if (data2?.pdfUpload?.imgUrl) {
+      setreportPdf(data2.pdfUpload.imgUrl);
+    }
+  }, [data2, setreportPdf]);
+
   return (
     <div className="box">
       <div className="head">
-        <h2>{data.caseStudies.label} Testimonial</h2>
+        <h2>
+          {caseStudies?.label || data?.caseStudies?.label || "Case Study"} Testimonial
+        </h2>
       </div>
+
       <div className="input-field">
         <label>
           TestimonialName <li>*</li>
@@ -83,16 +64,40 @@ const Landing = ({
       />
 
       <div className="input-field">
+        <label>YouTube Video URL</label>
+        <input
+          defaultValue={data?.youtubeUrl}
+          {...register("youtubeUrl")}
+          placeholder="https://www.youtube.com/watch?v=..."
+        />
+      </div>
+
+      <div className="input-field">
         <label>
           Case Studies <li>*</li>
         </label>
-        <input readOnly disabled defaultValue={data.caseStudies.label} />
+        {loadingClients ? (
+          <div>Loading case studies...</div>
+        ) : (
+          <NoSSR>
+            <Select
+              options={clientsData?.getAllClients?.map((t: any) => ({
+                value: t.id,
+                label: t.projectName,
+              }))}
+              value={caseStudies}
+              onChange={setcaseStudies}
+            />
+          </NoSSR>
+        )}
       </div>
+
       <ImageUploadLabel
         img={testimonialImage}
         setImage={settestimonialImage}
-        name={"Testimonial Image 	(520 × 520)"}
+        name={"Testimonial Image (520 × 520)"}
       />
+
       <Description
         title={"Description"}
         description={testimonialDescription}
@@ -103,3 +108,4 @@ const Landing = ({
 };
 
 export default Landing;
+
