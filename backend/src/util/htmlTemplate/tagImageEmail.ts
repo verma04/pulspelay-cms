@@ -171,7 +171,7 @@ const tagImageEmail = async ({ id }: any) => {
     console.log(memberEm);
     await sendGridEmail({
       from: `PulsePlay Digital DMS <dms.pulseplaydigital@gmail.com>`,
-      emaill: [memberEm].toString(),
+      email: [memberEm].toString(),
       cc: [...map, ...map1].toString(),
       subject: "Discover Our Latest Visual Delight!",
       content: email,

@@ -63,30 +63,37 @@ const Login = ({ onSubmit, loading }: any) => {
                     border: "1px solid black",
                     color: "black",
                   }}
-                  type="submit"
+                  type="button"
+                  disabled={loading}
                   className="btn btn-large waves-effect waves-light hoverable blue accent-3"
                 >
                   Login with Face (Beta)
                   <i className="Login with Face (Beta)"></i>
                 </button>
               </Link>
-              {loading && (
-                <button
-                  type="submit"
-                  className="btn btn-large waves-effect waves-light hoverable blue accent-3"
-                >
-                  Login
-                  <i className="fa fa-refresh fa-spin"></i>
-                </button>
-              )}
-              {!loading && (
-                <button
-                  type="submit"
-                  className="btn btn-large waves-effect waves-light hoverable blue accent-3"
-                >
-                  Login
-                </button>
-              )}
+              <button
+                type="submit"
+                disabled={loading}
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  gap: "0.5rem",
+                  minWidth: "7.5rem",
+                  cursor: loading ? "not-allowed" : "pointer",
+                  opacity: loading ? 0.8 : 1,
+                }}
+                className="btn btn-large waves-effect waves-light hoverable blue accent-3"
+              >
+                {loading ? (
+                  <>
+                    <span>Logging in...</span>
+                    <i className="fa-solid fa-circle-notch fa-spin"></i>
+                  </>
+                ) : (
+                  <span>Login</span>
+                )}
+              </button>
             </div>
           </form>
         </div>

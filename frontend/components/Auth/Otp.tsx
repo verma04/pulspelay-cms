@@ -62,23 +62,29 @@ const Otp = ({ onSubmit, loading }: any) => {
                 </h4>
               </div>
 
-              {loading && (
-                <button
-                  type="submit"
-                  className="btn btn-large waves-effect waves-light hoverable blue accent-3"
-                >
-                  Confirm
-                  <i className="fa fa-refresh fa-spin"></i>
-                </button>
-              )}
-              {!loading && (
-                <button
-                  type="submit"
-                  className="btn btn-large waves-effect waves-light hoverable blue accent-3"
-                >
-                  Confirm
-                </button>
-              )}
+              <button
+                type="submit"
+                disabled={loading}
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  gap: "0.5rem",
+                  minWidth: "8.5rem",
+                  cursor: loading ? "not-allowed" : "pointer",
+                  opacity: loading ? 0.8 : 1,
+                }}
+                className="btn btn-large waves-effect waves-light hoverable blue accent-3"
+              >
+                {loading ? (
+                  <>
+                    <span>Confirming...</span>
+                    <i className="fa-solid fa-circle-notch fa-spin"></i>
+                  </>
+                ) : (
+                  <span>Confirm</span>
+                )}
+              </button>
             </div>
           </form>
         </div>

@@ -1,3 +1,4 @@
+import { useState } from "react";
 import LoginForm from "../../components/Auth/Login";
 import { useSignIn } from "../../apollo/actions";
 import { useRouter } from "next/router";
@@ -10,6 +11,7 @@ import CommanError from "@components/commanError/CommanError";
 const Login = () => {
   const [{ data: ip }] = useAxios("https://ipapi.co/json/");
   const router = useRouter();
+  const [submitting, setSubmitting] = useState(false);
 
   const [loginMutation, { loading, error }] = useSignIn({
     onCompleted(data: any) {
@@ -18,15 +20,21 @@ const Login = () => {
           toastId: "otp-sent",
         });
         router.push(`/login/${data.login.tempToken}`);
+      } else {
+        setSubmitting(false);
       }
+    },
+    onError() {
+      setSubmitting(false);
     },
   });
 
   return (
     <>
       <LoginForm
-        loading={loading}
+        loading={loading || submitting}
         onSubmit={async (submbitData) => {
+          setSubmitting(true);
           const browserInfo = detect();
           const data = {
             ...submbitData,
@@ -45,9 +53,11 @@ const Login = () => {
                 toastId: "otp-sent",
               });
               router.push(`/login/${res.data.login.tempToken}`);
+            } else {
+              setSubmitting(false);
             }
           } catch (err) {
-            // error handled by mutation state
+            setSubmitting(false);
           }
         }}
       />

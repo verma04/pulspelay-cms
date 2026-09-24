@@ -156,7 +156,7 @@ const memoriesEmail = async ({ tags, year }: any) => {
     );
     await sendGridEmail({
       from: `PulsePlay Digital DMS <dms.pulseplaydigital@gmail.com>`,
-      emaill: [...memberEm, ...memberEmP].toString(),
+      email: [...memberEm, ...memberEmP].toString(),
       subject: title,
       content: emailSent,
       cc: [...map, ...map1].toString(),
